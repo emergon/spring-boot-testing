@@ -66,6 +66,39 @@
   ```bash
   mvn dependency:tree
   ```
+- JUnit Vintage is used for JUnit 4. If you only need JUnit 5 tests, exclude `junit-vintage` from the dependencies. Spring Boot 2.4 and later doesn't contain the dependency.
+  ```xml
+  <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
+    <exclusions>
+      <exclusion>
+        <groupId>org.junit.vintage</groupId>
+        <artifactId>junit-vintage-engine</artifactId>
+      </exclusion>
+    </exclusions>
+  </dependency>
+  ```
+- JUnit 5 = JUnit Platform + JUnit Jupiter + JUnit Vintage
+  Some basic annotations/methods are the following:
+  - @Test
+  - assertEquals()
+  - @BeforeEach/@AfterEach
+  - @ExtendWith
+  - @ParametrizedTest
+
+- **Mockito**: It is used to stub method calls and verify interaction on objects. Mocks dependencies of classes so that our tests can focus on one class.
+
+- **Hamcrest**: It is an assertion library that follows a more sentence-like approach compared to the assertions of JUnit 5. Thus, the assertions are more readable.
+
+- **AssertJ**: It is another assertion library that allows writing fluent assertions for Java tests.
+
+- **JSONAssert**: It helps writing unit tests for JSON data structures. This can be really helpful when testing the API endpoints of our Spring Boot application.
+
+- **JsonPath**: It enables us to extract specific parts of our JSON while using a JsonPath expression
 
 - More info: [Guide to Testing With the Spring Boot Starter Test](https://rieckpil.de/guide-to-testing-with-spring-boot-starter-test/)
 - Extra info: [How Spring Boot’s Autoconfigurations Work](https://www.marcobehler.com/guides/spring-boot-autoconfiguration)
+
+### How Maven Plays a Role In Testing
