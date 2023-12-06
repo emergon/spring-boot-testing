@@ -98,7 +98,46 @@
 
 - **JsonPath**: It enables us to extract specific parts of our JSON while using a JsonPath expression
 
-- More info: [Guide to Testing With the Spring Boot Starter Test](https://rieckpil.de/guide-to-testing-with-spring-boot-starter-test/)
-- Extra info: [How Spring Boot’s Autoconfigurations Work](https://www.marcobehler.com/guides/spring-boot-autoconfiguration)
+### More info: 
+
+- [Guide to Testing With the Spring Boot Starter Test](https://rieckpil.de/guide-to-testing-with-spring-boot-starter-test/)  
+  For integrations test we need more dependencies: **WireMock**, **Testcontainers**, or **Selenium**.
+- [Spring Boot Unit and Integration Testing Overview](https://rieckpil.de/spring-boot-unit-and-integration-testing-overview/)
+   - **Unit Testing with Spring Boot**: Spring Boot contains by default the basic dependencies for unit testing
+   - **Tests With a Sliced Spring Context**: If JUnit is not enough, Spring provides the *TestContext* framework to test various parts of the app (*@WebMvcTest*, *@DataMongoTest*, *@DataJpaTest*, *@JsonTest*).
+   - **JUnit 4 vs. JUnit 5 Pitfall**: Try not to mix JUnit 4 and 5 Tests. Use **Maven Enforcer Plugin** to define a dependency as Banned.
+   - **Integration Tests With Spring Boot: @SpringBootTest**: Use *@SpringBootTest* to populate the [entire application context](https://rieckpil.de/guide-to-springboottest-for-spring-boot-integration-tests/), use [TestContainers](https://www.testcontainers.org/) to manage Docker containers, use [WireMock](https://rieckpil.de/spring-boot-integration-tests-with-wiremock-and-junit-5/) to stub and prepare HTTP responses to simulate the existence of a remote system.
+   - **End-to-End Tests with Spring Boot**: These tests involve user experience and a browser. *Selenium* is the de facto choice. [Selenide](https://rieckpil.de/write-concise-web-tests-with-selenide-for-java-projects/) is an abstraction for better code.
+
+- [Spring Boot Test Slices: Overview and Usage](https://rieckpil.de/spring-boot-test-slices-overview-and-usage/)
+   - Spring Boot offers the capability to create a **Spring Context** with only a subset of beans by applying only specific auto-configurations and isolate parts of the app (Web Layer, JPA components)
+   - **Testing the Web Layer With @WebMvcTest**: This annotation creates a **Spring Context** with components for testing Spring MVC (*@Controller, @ControllerAdvice, @JsonComponent, Converter, Filter, WebMvcConfigurer*).
+   - **Testing your JPA Components With @DataJpaTest**: Test any JPA related class (*@Repository, EntityManager, TestEntityManager, DataSource*).
+   - **Testing JSON Serialization with @JsonTest**: Used for testing serialization/deserialization with *@JsonComponent,ObjectMapper, Module* from Jackson
+   - **Testing the Entire Application With @SpringBootTest**: Allows to write tests for the whole application.
+
+- [Guide to @SpringBootTest for Spring Boot Integration Tests](https://rieckpil.de/guide-to-springboottest-for-spring-boot-integration-tests/)
+   - @SpringBootTest is a powerful tool to write integration tests
+   - not every part of your application should be tested with this expensive test setup
+   - be aware that the default web environment is MOCK (no port and no Tomcat)
+   - there are multiple strategies to tweak the context configuration and environment
+   - be aware of the increased build time when creating different Spring TestContext configurations
+
+- [Guide to Testing Spring Boot Applications With MockMvc](https://rieckpil.de/guide-to-testing-spring-boot-applications-with-mockmvc/)
+   - Test Web Layer (*@Controller, @RestController, Filter, @ControllerAdvice, WebMvcConfigurer, etc*).
+   - Need *spring-boot-starter-web, spring-boot-starter-test, spring-security-test*
+   - Use *@WebMvcTest* to auto-configure a MockMvc.
+
+- [Test Your Spring Boot JPA Persistence Layer With @DataJpaTest](https://rieckpil.de/test-your-spring-boot-jpa-persistence-layer-with-datajpatest/)
+   - Do not test methods provided by the framework (*findAll(), save(), update(), delete()*)
+   - Do not test methods where SQL is derived by the method name(validated at application startup)
+   - Test native queries
+   - Use **TestContainers** to use a Docker DB instead of an embedded DB.
+
+- [Fix No Qualifying Spring Bean Error For Spring Boot Tests](https://rieckpil.de/fix-no-qualifying-spring-bean-error-for-spring-boot-tests/)
+   - When testing different slices, use **@MockBean** to mock dependencies (*Service*).
+
+- [How Spring Boot’s Autoconfigurations Work](https://www.marcobehler.com/guides/spring-boot-autoconfiguration)
+- [Spring Testing Documentation](https://docs.spring.io/spring-framework/docs/current/reference/html/testing.html)
 
 ### How Maven Plays a Role In Testing
