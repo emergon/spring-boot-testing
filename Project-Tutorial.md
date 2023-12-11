@@ -140,4 +140,93 @@
 - [How Spring Boot’s Autoconfigurations Work](https://www.marcobehler.com/guides/spring-boot-autoconfiguration)
 - [Spring Testing Documentation](https://docs.spring.io/spring-framework/docs/current/reference/html/testing.html)
 
-### How Maven Plays a Role In Testing
+
+### [How Maven Plays a Role In Testing](https://rieckpil.de/maven-setup-for-testing-java-applications/)
+
+- Maven Archetypes can be used to create projects. Rieckpil offers this [repository](https://github.com/rieckpil/custom-maven-archetypes/tree/master/testing-toolkit-archetype) with a maven archetype project with basic testing capabilities. We can create our own archetype
+- Basic Folders and Files in java for testing
+  - **src/test/java**: contains the test classes in the same package structure as normal classes.
+  - **src/test/resources**: static files that are necessary for the tests like *csv*, *json* or *configuration* files.
+  - **target/test-classes**: this is where maven places the compiled test classes and test resources. Run `mvn test-compile`
+
+#### Maven and Java Testing Naming Conventions
+The **Maven Surefire Plugin** is designed to run our unit tests. These conventions will be detected by the plugin:
+- **/Test*.java
+- **/*Test.java
+- **/*Tests.java
+- **/*TestCase.java  
+
+Generaly a test is NOT a unit test if it:
+- talks to the database
+- communicates across the network
+- touches the file system
+- can't run at the same time as any of your other unit tests
+- or you have to do special things to your environment (such as editing config files) to run it.
+
+The **Maven Failsafe Plugin** is designed to run our integration tests. These conventions will be detected by the plugin:
+- **/IT*.java
+- **/*IT.java
+- **/*ITCase.java
+
+#### When are Java Tests executed?
+Maven contains these three built-in lifecycles:
+- *default*: handling project building and deployment
+- *clean*: project cleaning
+- *site*: the creation of our project's (documentation) site
+
+The **default** lifecycle contains the following build phases:
+- *validate*: validate that our project setup is correct (e.g., we have the correct Maven folder structure)
+- *compile*: compile our source code with javac
+- *test*: run our unit tests with the **Maven Surefire Plugin**
+- *package*: build our project in its distributable format (e.g., JAR or WAR)
+- *verify*: run our integration tests and further checks (e.g., the OWASP dependency check) with the **Maven Failsafe Plugin**
+- *install*: install the distributable format into our local repository (~/.m2 folder)
+- *deploy*: deploy the project to a remote repository (e.g., Maven Central or a company hosted Nexus Repository/Artifactory)
+
+#### The Maven Surefire and Failsafe Plugins
+The **Maven Surefire Plugin** picks up tests based on the naming conventions. It's good to override the version to include latest updates:
+```xml
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M5</version>
+      </plugin>
+    </plugins>
+  </build>
+  ```
+  Some commands follow for maven:
+  - `mvn test`: run build phases up to phase **test** and run only unit tests with *maven surefire plugin*
+  - `mvn surefire:test`: run unit tests but skip previous build phases (*validate, compile*). Keep in mind that test classes should be compiled.
+  - `mvn package -DskipTests`: package project but skip unit tests
+  - Explicitly run a test class or test method:
+    - mvn test -Dtest=MainTest
+    - mvn test -Dtest=MainTest#testMethod
+    - mvn surefire:test -Dtest=MainTest
+
+The **Maven Failsafe Plugin** is not by default part of the project as **Surefire** is. So it needs to be manually included in order to execute integration tests:
+```xml
+  <build>
+      <!-- further plugins -->
+      <plugin>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>3.0.0-M5</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+```
+In the *executions* section the goals need to be specified. Without the *verify* goal, the plugin will run our integration tests but won't fail the build if there are test failures.  
+Commands for maven failsafe plugin:
+- `mvn failsafe:integration-test failsafe:verify`: execute only integration tests.
+- `mvn verify -DskipITs`: skip integration tests.
+- Execute specific integration tests:
+  - mvn -Dit.test=MainIT failsafe:integration-test failsafe:verify
+  - mvn -Dit.test=MainIT#firstTest failsafe:integration-test failsafe:verify
