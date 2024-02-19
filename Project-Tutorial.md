@@ -230,3 +230,97 @@ Commands for maven failsafe plugin:
 - Execute specific integration tests:
   - mvn -Dit.test=MainIT failsafe:integration-test failsafe:verify
   - mvn -Dit.test=MainIT#firstTest failsafe:integration-test failsafe:verify
+
+### [Getting Familiar with JUnit 5 and Mockito](https://rieckpil.de/course/tsbap-getting-familiar-with-junit-5-and-mockito/)
+
+#### JUnit
+JUnit 5 was launched in 2017 and is composed of several modules:
+- JUnit Platform: Foundation to launch testing frameworks & it defines the **TestEngine** API for developing testing frameworks
+- JUnit Jupiter: New programming model and extension model and provides the **JupiterTest Engine** that implements the **TestEngine** interface to run tests on the JUnit Platform
+- JUnit Vintage: Provides a TestEngine to run both JUnit 3 and JUnit 4 tests
+
+Sources:
+- [JUnit 5 Crash Course (YouTube)](https://www.youtube.com/watch?v=flpmSXVTqBI)
+  - ```
+    Assertions.assertThrows(NumberFormatException.class, () -> {
+    Integer.parseInt("Hello");
+    });
+    ```
+  - `@EnabledOnOs(value = OS.MAC, disabledReason = "Enabled only on MAC")`
+  - `Assumptions.assumeTrue()`
+  - `@RepeatedTest(value = 5)`
+    
+- [Five JUnit 5 Features You Might Not Know Yet (Rieckpil)](https://rieckpil.de/five-junit-5-features-you-might-not-know-yet/)
+  - Test Execution Ordering  
+  We can order Tests based on our configuration.
+    
+  ```java
+  @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+  public class OrderedExecutionTest {
+  
+  @Test
+  @Order(2)
+  public void testTwo() {
+  System.out.println("Executing testTwo");
+  assertEquals(4, 2 + 2);
+  }
+  
+  @Test
+  @Order(1) //Lower number has higher priority
+  public void testOne() {
+  System.out.println("Executing testOne");
+  assertEquals(4, 2 + 2);
+  }
+  
+  @Test
+  @Order(3)
+  public void testThree() {
+  System.out.println("Executing testThree");
+  assertEquals(4, 2 + 2);
+  }
+  }
+  ```
+  - Nesting Tests
+  
+- [JUnit 5 Official Documentation](https://junit.org/junit5/docs/current/user-guide/)
+
+#### Mockito
+The Basic Workflow of Mockito is:
+- Create mocks for collaborators of our class under test (e.g., using @Mock)
+- Stub the behavior of the mocks as they'll otherwise return a default value (when().thenReturn())
+- (Optionally) Verify the interaction of our mocks (verify())
+
+The [Four Golder Rules of Mockito](https://github.com/mockito/mockito/wiki) about when and what to mock:
+- Do not mock types you don't own
+- Don't mock values objects
+- Don't mock everything
+- Show some love with your tests
+
+```java
+//Step 1: Annotate class with 
+@ExtendWith(MockitoExtension.class)
+class PricingServiceTest{
+  //Step 2: Mock Dependencies
+  @Mock
+  private PricingRepository pricingRepository;
+  
+  //Step 3: Inject mocks into class we need
+  @InjectMocks
+  private PricingService pricingService;
+  
+  //Step 4: Create tests
+  @Test
+  void shouldReturnExpensivePriceWhenProductIsComputer() {
+    Mockito.when(pricingRepository.getPricing("computer"))
+            .thenReturn(new BigDecimal(10.0));
+    assertEquals(new BigDecimal(10.0), pricingService.getPricing("computer"));
+  }
+}
+```
+
+### [High-Level Overview of Testing Spring Boot Applications](https://rieckpil.de/course/tsbap-high-level-overview-of-testing-spring-boot-applications/)
+Some of the best resources for writing good tests (contain books, courses, articles):
+- [Recommended Resources on Testing Java Applications](https://rieckpil.de/recommended-resources-for-testing-java-applications/)
+
+Great Talk for Spring Boot Testing by Pivotal
+- [Test Driven Development with Spring Boot](https://www.youtube.com/watch?v=s9vt6UJiHg4&t=2239s)
