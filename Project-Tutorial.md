@@ -324,3 +324,92 @@ Some of the best resources for writing good tests (contain books, courses, artic
 
 Great Talk for Spring Boot Testing by Pivotal
 - [Test Driven Development with Spring Boot](https://www.youtube.com/watch?v=s9vt6UJiHg4&t=2239s)
+
+## Intermediate Topics
+
+### [Spring Boot Test Slice Annotations](https://rieckpil.de/course/tsbap-spring-boot-test-slice-annotations/)
+If we want to test different parts of our application in isolation, Spring provides *test slice annotations* where Spring Boot bootstraps an opinionated Spring TestContext for us. 
+By using this, you do not have to bootstrap the whole Spring Context. 
+The following guide provides an overview of these annotations for testing in isolation the Web or Persistence Layers.
+
+- [Spring Boot Test Slices: Overview and Usage](https://rieckpil.de/spring-boot-test-slices-overview-and-usage/)  
+Using Spring Boot Test Slices means that technically Spring creates a Spring Context with only a subset of beans by applying only specific auto-configurations.
+
+<details>
+<summary>Testing the Web Layer With @WebMvcTest</summary>
+
+This Annotation lets you test part of the Spring MVC Application. It also supports the rules for Spring Security.  
+This Spring Test Context contains:
+- @Controller
+- @ControllerAdvice
+- @JsonComponent
+- Converter
+- Filter
+- WebMvcConfigurer
+
+It **DOES NOT** contain:
+- @Service
+- @Component
+- @Repository
+
+**@WebMvcTest** provides a mocked Servlet Environment, so there is no port to access the application like with a *RestTemplate*.
+So for access to the endpoint we use the auto-configured *MockMvc*
+
+```java
+@WebMvcTest(ShoppingCartController.class) //tells Spring to focus only on testing this controller class
+class ShoppingCartControllerTest {
+ 
+  @Autowired
+  private MockMvc mockMvc;//Helps Test Controller endpoints without starting a full HTTP Server. Simulates HTTP requests and responses
+ 
+  @MockBean
+  private ShoppingCartRepository shoppingCartRepository;
+ 
+  @Test
+  public void shouldReturnAllShoppingCarts() throws Exception {
+    when(shoppingCartRepository.findAll()).thenReturn(
+      List.of(new ShoppingCart("42",
+        List.of(new ShoppingCartItem(
+          new Item("MacBook", 999.9), 2)
+        ))));
+ 
+    this.mockMvc.perform(get("/api/carts"))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$[0].id", Matchers.is("42")))
+      .andExpect(jsonPath("$[0].cartItems.length()", Matchers.is(1)))
+      .andExpect(jsonPath("$[0].cartItems[0].item.name", Matchers.is("MacBook")))
+      .andExpect(jsonPath("$[0].cartItems[0].quantity", Matchers.is(2)));
+  }
+}
+```
+</details>
+
+<details>
+<summary>Testing your JPA Components With @DataJpaTest</summary>
+
+
+</details>
+
+<details>
+<summary>Testing JDBC Access With @JdbcTest</summary>
+
+
+</details>
+
+<details>
+<summary>Testing JSON Serialization with @JsonTest</summary>
+
+
+</details>
+
+<details>
+<summary>Testing HTTP Clients With @RestClientTest</summary>
+
+
+</details>
+
+<details>
+<summary>Testing the Entire Application With @SpringBootTest</summary>
+
+
+</details>
