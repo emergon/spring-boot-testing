@@ -338,8 +338,8 @@ Using Spring Boot Test Slices means that technically Spring creates a Spring Con
 <details>
 <summary>Testing the Web Layer With @WebMvcTest</summary>
 
-This Annotation lets you test part of the Spring MVC Application. It also supports the rules for Spring Security.  
-This Spring Test Context contains:
+The annotation `@WebMvcTest` lets you test part of the Spring MVC Application. It also supports the rules for Spring Security.  
+It creates a Spring Test Context that contains:
 - @Controller
 - @ControllerAdvice
 - @JsonComponent
@@ -387,29 +387,24 @@ class ShoppingCartControllerTest {
 <details>
 <summary>Testing your JPA Components With @DataJpaTest</summary>
 
+The annotation `@DataJpaTest` lets you test any JPA-related parts of the application. 
+A good example is to verify that a native query is working as expected.
+By default, this annotation tries to auto-configure use an embedded database (e.g., H2) as the DataSource.
 
-</details>
+It creates a Spring Test Context that contains beans:
+- @Repository
+- EntityManager
+- TestEntityManager
+- DataSource
 
-<details>
-<summary>Testing JDBC Access With @JdbcTest</summary>
+It **DOES NOT** contain beans of: 
+- @Service
+- @Component
+- @Controller
 
+Example in [StudentRepositoryTest.java](src/test/java/emergon/student/StudentRepositoryTest.java) class.  
 
-</details>
-
-<details>
-<summary>Testing JSON Serialization with @JsonTest</summary>
-
-
-</details>
-
-<details>
-<summary>Testing HTTP Clients With @RestClientTest</summary>
-
-
-</details>
-
-<details>
-<summary>Testing the Entire Application With @SpringBootTest</summary>
-
+*We can disable the in-memory DB by using `@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)`*.  
+*Also all tests run inside a transaction and get rolled back after their execution.*
 
 </details>
