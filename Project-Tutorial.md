@@ -408,3 +408,22 @@ Example in [StudentRepositoryTest.java](src/test/java/emergon/student/StudentRep
 *Also all tests run inside a transaction and get rolled back after their execution.*
 
 </details>
+
+### [Testing the Web Layer](https://rieckpil.de/course/tsbap-testing-the-web-layer/)
+
+- [Guide to Testing Spring Boot Applications With MockMvc](https://rieckpil.de/guide-to-testing-spring-boot-applications-with-mockmvc/)
+
+Dependencies needed for testing Web Layer:
+- org.springframework.boot:spring-boot-starter-web
+- org.springframework.boot:spring-boot-starter-test (scope=test)
+- org.springframework.security:spring-security-test (scope=test) (If Spring Security is used)
+
+Check the above link to find information on how to use MockMvc to:
+- Use JsonPath to create Json Responses and validate Json
+- Test Secure REST API Endpoints if Spring Security is used
+- Use [WebTestClient](https://rieckpil.de/spring-webtestclient-for-efficient-testing-of-your-rest-api/) to perform real HTTP requests to the running application
+
+YouTube Video Resources:
+- [Setup MockMvc to Test Your Spring MVC @Controller and @RestController in Isolation](https://www.youtube.com/watch?v=sxWNJJ4dKJo&t=1s)
+- [Perform HTTP GET and POST Requests MockMvc to Test a @RestController](https://www.youtube.com/watch?v=Aasp0mWT3Ac)
+- [Test Protected (Spring Security) Controller Endpoints With MockMvc](https://www.youtube.com/watch?v=oLtXe1wgSC8)
