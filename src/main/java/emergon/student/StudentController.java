@@ -1,5 +1,6 @@
 package emergon.student;
 
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ public class StudentController {
         this.studentService = studentService;
     }
 
+    @RolesAllowed("ADMIN")
     @GetMapping
     public List<Student> getAllStudents() {
         return studentService.getAllStudents();

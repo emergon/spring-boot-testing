@@ -5,8 +5,12 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
@@ -23,6 +27,7 @@ class StudentControllerTest {
     private StudentService studentService;
 
     @Test
+    @WithMockUser
     public void shouldReturnAllStudents() throws Exception{
         //Step 1: Create a mock list of what the service returns when calling StudentService.getAllStudents() method
         Mockito.when(studentService.getAllStudents()).thenReturn(
@@ -32,11 +37,16 @@ class StudentControllerTest {
         );
         //Step 2: Use the MockMvc to do a REST API call without initializing an HTTP Server
         //Step 3: Use MockMvcRequestBuilders and MockMvcResultMatchers to create a JSON response.
-        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/students"))
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/students")
+//                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+//                          .with(SecurityMockMvcRequestPostProcessors.user("tasos"))
+                )
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Nick"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].age").value(38))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].name").value("Jane"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].name").value("Jane"))
+
+        ;
     }
 }
