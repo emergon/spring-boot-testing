@@ -427,3 +427,34 @@ YouTube Video Resources:
 - [Setup MockMvc to Test Your Spring MVC @Controller and @RestController in Isolation](https://www.youtube.com/watch?v=sxWNJJ4dKJo&t=1s)
 - [Perform HTTP GET and POST Requests MockMvc to Test a @RestController](https://www.youtube.com/watch?v=Aasp0mWT3Ac)
 - [Test Protected (Spring Security) Controller Endpoints With MockMvc](https://www.youtube.com/watch?v=oLtXe1wgSC8)
+
+### [Testing the Persistence Layer](https://rieckpil.de/course/tsbap-testing-the-persistence-layer/)
+
+For Testing the Persistence Layer we need the `@DataJpaTest` annotation. The Spring Test Context contains the components:
+- @Repository or any class extending a Spring Data repository
+- EntityManager and TestEntityManager
+- DataSource
+
+Behind the scenes, this Annotation tries to connect to an embedded database (H2 or Derby). But, we shouldn't use a different DB than what we're using in production.
+
+- [Guide to Testing Spring Boot JPA Persistence Layer](https://rieckpil.de/test-your-spring-boot-jpa-persistence-layer-with-datajpatest/)
+
+What not to Test with @DataJpaTest
+- CRUD functionalities provided by Spring Data JPA
+- Queries derived by method name (These are validated on Application Startup)
+- Schema Mappings between Entities and DB Tables (use `spring.jpa.hibernate.ddl-auto=validate`)
+
+Testcontainers makes it convenient to start any Docker container of choice for testing purposes.
+Testcontainers guides:
+- [Testing Spring Boot Applications with Testcontainers and JUnit](https://rieckpil.de/howto-write-spring-boot-integration-tests-with-a-real-database/)
+- [Reuse Containers With Testcontainers for Fast Integration Tests](https://rieckpil.de/reuse-containers-with-testcontainers-for-fast-integration-tests/)
+- []()
+
+
+YouTube Video Resources:
+- []()
+- []()
+- []()
+- []()
+ 
+ 

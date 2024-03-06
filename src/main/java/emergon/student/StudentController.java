@@ -23,4 +23,10 @@ public class StudentController {
         return studentService.getAllStudents();
     }
 
+    @GetMapping("/age")
+    public List<Student> findAllGreaterThan(){
+        int age = 20;
+        return studentService.findAllGreaterThan(age);
+    }
+
 }

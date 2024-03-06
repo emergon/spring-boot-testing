@@ -18,4 +18,8 @@ public class StudentService {
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
+
+    public List<Student> findAllGreaterThan(int age){
+        return studentRepository.findAllGreaterThan(age);
+    }
 }

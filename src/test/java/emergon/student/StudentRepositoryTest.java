@@ -33,4 +33,11 @@ class StudentRepositoryTest {
         assertNotNull(dataSource);
         assertNotNull(entityManager);
     }
+
+    @Test
+    public void testFindStudentsGreaterThan(){
+        int age = 20;
+        List<Student> students = studentRepository.findAllGreaterThan(age);
+        assertEquals(2, students.size());
+    }
 }
