@@ -455,4 +455,34 @@ YouTube Video Resources:
 - [Test a Native Query of Your Spring Data JPA Repository With @DataJpaTest](https://www.youtube.com/watch?v=EPxII6TeqTQ)
 - [Short And Concise Test Setup With @DataJpaTest and Testcontainers](https://www.youtube.com/watch?v=zFkTA95w0oo)
  
- 
+### [Further Test Slice Annotations](https://rieckpil.de/course/tsbap-further-test-slice-annotations/)
+
+- [Testing the Spring RestTemplate With @RestClientTest](https://rieckpil.de/testing-your-spring-resttemplate-with-restclienttest/)
+- [Testing JSON Serialization With @JsonTest and Spring Boot](https://rieckpil.de/testing-your-json-serialization-with-jsontest/)
+- [Test Spring WebClient with MockWebServer from OkHttp](https://rieckpil.de/test-spring-webclient-with-mockwebserver-from-okhttp/)
+
+## Advanced Topics
+
+### [Infrastructure Setup for Integration Tests With Testcontainers](https://rieckpil.de/course/tsbap-infrastructure-setup-for-integration-tests-with-testcontainers/)
+
+Various articles about Testcontainers
+- [Testcontainers in Rieckpil](https://rieckpil.de/tag/testcontainers/)
+
+YouTube Video Resources
+- [Introduction to Testcontainers with JUnit 5 and Spring Boot](https://www.youtube.com/watch?v=-mYJKwrySOw&t=1s)
+
+### [Integration Tests with @SpringBootTest](https://rieckpil.de/course/tsbap-integration-tests-with-springboottest/)
+
+- [Spring Boot Integration Tests With WireMock and JUnit 5](https://rieckpil.de/spring-boot-integration-tests-with-wiremock-and-junit-5/)
+- [Guide to @SpringBootTest for Spring Boot Integration Tests](https://rieckpil.de/guide-to-springboottest-for-spring-boot-integration-tests/)
+- [Improve Build Times with Context Caching from Spring Test](https://rieckpil.de/improve-build-times-with-context-caching-from-spring-test/)
+
+### [Writing End-To-End Tests](https://rieckpil.de/course/tsbap-writing-end-to-end-tests/)
+
+End-To-End Tests are used to test an entire user journey like logging in, creating items, deleting items and logging out.
+For end-to-end tests that somehow interact with a browser, the usual first choice would be **Selenium**.  
+Another tool that can be used is **Selenide**.
+
+YouTube Resources:
+- [Introduction Selenide for Writing Concise Web Tests for Java Projects](https://www.youtube.com/watch?v=T9xns1iMbPI)
+- [Use the Testcontainers Webdriver Module together with Selenide](https://www.youtube.com/watch?v=wzF1lfrGHtk)
