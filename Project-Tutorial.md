@@ -448,13 +448,11 @@ Testcontainers makes it convenient to start any Docker container of choice for t
 Testcontainers guides:
 - [Testing Spring Boot Applications with Testcontainers and JUnit](https://rieckpil.de/howto-write-spring-boot-integration-tests-with-a-real-database/)
 - [Reuse Containers With Testcontainers for Fast Integration Tests](https://rieckpil.de/reuse-containers-with-testcontainers-for-fast-integration-tests/)
-- []()
-
 
 YouTube Video Resources:
-- []()
-- []()
-- []()
-- []()
+- [Introduction to @DataJpaTest and Pitfalls of In-Memory Databases For Testing](https://www.youtube.com/watch?v=DwBgx30ZWVc)
+- [Replacing the Default In-Memory Database of @DataJpaTest Using Testcontainers](https://www.youtube.com/watch?v=2fPDw0PVbso&t=1s)
+- [Test a Native Query of Your Spring Data JPA Repository With @DataJpaTest](https://www.youtube.com/watch?v=EPxII6TeqTQ)
+- [Short And Concise Test Setup With @DataJpaTest and Testcontainers](https://www.youtube.com/watch?v=zFkTA95w0oo)
  
  
